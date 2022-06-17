@@ -7,6 +7,7 @@ class Cinema {
 
   //Add a new screen
   save(screenName, capacity) {
+    //***magic number
     if (capacity > 100) {
       return 'Exceeded max capacity'
     }
@@ -31,6 +32,7 @@ class Cinema {
   }
 
   //Add a new film
+  //***what is r mean 
   addNew(movieName, r, duration) {
 
     //Check the film doesn't already exist
@@ -46,13 +48,15 @@ class Cinema {
     }
 
     //Check the rating is valid
+    //***the unknown code
     if (r!="U" && r!="PG") {
       if (r!="12" && r!="15" && r!="18") {
         return 'Invalid rating'
       }
     }
-    
+  //************************************************************************ */
     //Check duration
+    //***what is this sign  /^(\d?\d):(\d\d)$/
     const result = /^(\d?\d):(\d\d)$/.exec(duration)
     if(result==null) {
       return 'Invalid duration'
@@ -63,13 +67,15 @@ class Cinema {
     if(hours<=0 || mins>60) {
       return 'Invalid duration'
     }
-
+//************************************************************************ */
     this.films.push({name:movieName, rating:r, duration: duration})
+
   }
 
   //Add a showing for a specific film to a screen at the provided start time
   add(movie, screenName, startTime) {
-
+    //************************************************************************ */
+    //***what is this sign  /^(\d?\d):(\d\d)$/
     let result = /^(\d?\d):(\d\d)$/.exec(startTime)
     if(result==null) {
       return 'Invalid start time'
@@ -80,7 +86,8 @@ class Cinema {
     if(intendedStartTimeHours<=0 || intendedStartTimeMinutes>60) {
       return 'Invalid start time'
     }
-
+    //************************************************************************ */
+//----------------------------------------------------------------------------- */
 
     let film = null
     //Find the film by name
@@ -93,10 +100,12 @@ class Cinema {
     if(film===null) {
       return 'Invalid film'
     }
-
+    //----------------------------------------------------------------------------- */
+    //************************************************************************ */
     //From duration, work out intended end time
     //if end time is over midnight, it's an error
     //Check duration
+        //***what is this sign  /^(\d?\d):(\d\d)$/
     result = /^(\d?\d):(\d\d)$/.exec(film.duration)
     if(result==null) {
       return 'Invalid duration'
@@ -119,8 +128,10 @@ class Cinema {
     if(intendedEndTimeHours>=24) {
       return 'Invalid start time - film ends after midnight'
     }
-
+//************************************************************************ */
+ //----------------------------------------------------------------------------- */
     //Find the screen by name
+    //**repeated Code 
     let theatre = null
     for (let i=0;i<this.screens.length;i++) {
       if (this.screens[i].name==screenName) {
@@ -131,7 +142,7 @@ class Cinema {
     if(theatre===null) {
       return 'Invalid screen'
     }
-    
+    //----------------------------------------------------------------------------- */
     //Go through all existing showings for this film and make
     //sure the start time does not overlap 
     let error = false
@@ -139,6 +150,9 @@ class Cinema {
 
       //Get the start time in hours and minutes
       const startTime = theatre.showings[i].startTime
+           //***what is this sign  /^(\d?\d):(\d\d)$/
+            //***repeated code
+  //************************************************************************ */
       result = /^(\d?\d):(\d\d)$/.exec(startTime)
       if(result==null) {
         return 'Invalid start time'
@@ -149,9 +163,12 @@ class Cinema {
       if(startTimeHours<=0 || startTimeMins>60) {
         return 'Invalid start time'
       }
-
+//************************************************************************ */
       //Get the end time in hours and minutes
       const endTime = theatre.showings[i].endTime
+           //***what is this sign  /^(\d?\d):(\d\d)$/
+           //***repeated code
+           //************************************************************************ */
       result = /^(\d?\d):(\d\d)$/.exec(endTime)
       if(result==null) {
         return 'Invalid end time'
@@ -161,9 +178,11 @@ class Cinema {
       const endTimeMins = parseInt(result[2])
       if(endTimeHours<=0 || endTimeMins>60) {
         return 'Invalid end time'
-      }
+        
+      }//************************************************************************ */
 
       //if intended start time is between start and end
+      //Repeated Code
       const d1 = new Date()
       d1.setMilliseconds(0)
       d1.setSeconds(0)
@@ -187,7 +206,7 @@ class Cinema {
       d4.setSeconds(0)
       d4.setMinutes(endTimeMins)
       d4.setHours(endTimeHours)
-
+      //compplecated Conditon
       if ((d1 > d3 && d1 < d4) || (d2 > d3 && d2 < d4) || (d1 < d3 && d2 > d4) ) {
         error = true
         break

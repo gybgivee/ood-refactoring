@@ -1,4 +1,4 @@
-const Cinema = require("../src/cinema")
+const Cinema = require("../src/screen")
 
 describe("Cinema", () => {
   let cinema
