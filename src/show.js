@@ -9,7 +9,7 @@ class Show {
 
         //It takes 20 minutes to clean the screen so add on 20 minutes to the duration 
         //when working out the end time
-        const extraTime = 20;
+       
         let movie = null;
         movie = this.films.find(element => element.name === movieName);
     
@@ -20,7 +20,7 @@ class Show {
         if (expectedStart.hours <= 0 || expectedStart.mins > 60) {
             return 'Invalid start time'
         }
-        const isEndAfterMidnight = this.checkMidnightEnd();
+        const isEndAfterMidnight = this.checkMidnightEnd(expectedStart);
         if(isEndAfterMidnight){
             return 'Invalid start time - film ends after midnight'
         }
@@ -59,7 +59,8 @@ class Show {
 
 
     }
-    checkMidnightEnd(){
+    checkMidnightEnd(expectedStart){
+        const extraTime = 20;
         let result =false;
         const filmDetails = this.films.find(element => element.name === movieName);
         const duration = this.checkValidTime(filmDetails.duration);
