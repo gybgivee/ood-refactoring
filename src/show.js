@@ -10,28 +10,25 @@ class Show {
         //It takes 20 minutes to clean the screen so add on 20 minutes to the duration 
         //when working out the end time
         const extraTime = 20;
-        const movie = this.checkDistinct(this.films, movieName);
+        let movie = null;
+        movie = this.films.find(element => element.name === movieName);
+    
         if (movie === null) {
             return 'Film not exists'
         }
-
         const expectedStart = this.checkValidTime(startTime);
         if (expectedStart.hours <= 0 || expectedStart.mins > 60) {
             return 'Invalid start time'
         }
-        const filmDetails = this.films.find(element => element.name === movieName);
-        const duration = this.checkValidTime(filmDetails.duration);
-        let durationHours = expectedStart.hours + duration.hours;
-        let durationMins = expectedStart.mins + duration.mins + extraTime;
-        if (durationMins >= 60) {
-            durationHours += Math.floor(durationMins / 60)
-            durationMins = durationMins % 60
-        }
-        if (durationHours >= 24) {
+        const isEndAfterMidnight = this.checkMidnightEnd();
+        if(isEndAfterMidnight){
             return 'Invalid start time - film ends after midnight'
         }
+
+        
         //************************************************* */
-        const screen = this.checkDistinct(this.screen, screenName);
+        let screen=null;
+        screen = this.screen.find(element => element.name === screenName);
         if (screen === null) {
             return 'Screen not exists'
         }
@@ -62,7 +59,21 @@ class Show {
 
 
     }
-
+    checkMidnightEnd(){
+        let result =false;
+        const filmDetails = this.films.find(element => element.name === movieName);
+        const duration = this.checkValidTime(filmDetails.duration);
+        let durationHours = expectedStart.hours + duration.hours;
+        let durationMins = expectedStart.mins + duration.mins + extraTime;
+        if (durationMins >= 60) {
+            durationHours += Math.floor(durationMins / 60)
+            durationMins = durationMins % 60
+        }
+        if (durationHours >= 24) {
+            result=true;
+        }
+        return result;
+    }
     checkValidTime(time) {
         let hours = 0, mins = 0;
         const checkedFormat = /^(\d?\d):(\d\d)$/.exec(time);
@@ -85,17 +96,6 @@ class Show {
         newDate.setHours(hours)
 
         return newDate;
-
-    }
-    checkDistinct(array, checkName) {
-        let result = null
-        for (let i = 0; i < array.length; i++) {
-            if (array[i].name === checkName) {
-                result = array[i]
-            }
-        }
-
-        return result;
 
     }
     movieShowToday() {

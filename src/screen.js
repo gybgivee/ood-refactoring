@@ -8,7 +8,8 @@ class Screen {
         if (capacity > limit) {
             return 'Exceeded max capacity';
         }
-        const screen = this.checkDistinct(this.screens, screenName);
+        let screen = null;
+        screen = this.screens.find(element=> element.name === screenName);
         if (screen != null) {
             return 'Screen already exists';
         }
@@ -18,20 +19,7 @@ class Screen {
           })
           return  this.screens;
     }
-    checkDistinct(array, checkName) {
-        let result = null
-
-        for (let i = 0; i < array.length; i++) {
-            if (array[i].name === checkName) {
-                result = array[i]
-            }
-        }
-       
-        return result;
-
-    }
-
-   
+  
 }
 module.exports = Screen;
 const myScreen = new Screen();

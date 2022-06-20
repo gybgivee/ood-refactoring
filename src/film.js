@@ -4,8 +4,9 @@ class Film{
         this.films = []
     }
     addNewFilm(movieName, rRate, duration) {
-
-        const movie = this.checkDistinct(this.films, movieName)
+       
+        let movie = null;
+        movie = this.films.find(element => element.name === movieName);
         if (movie != null) {
             return 'Film already exists'
         }
@@ -41,16 +42,6 @@ class Film{
 
         return { hours: hours, mins: mins };
 
-    }
-    checkDistinct(array, checkName) {
-        let result = null
-
-        for (let i = 0; i < array.length; i++) {
-            if (array[i].name === checkName) {
-                result = array[i]
-            }
-        }
-        return result;
     }
     
 }
